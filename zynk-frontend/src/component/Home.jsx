@@ -12,29 +12,29 @@ function Home() {
 
   //   functionalities
   const handleDelete = (id) => {
-    axios 
-     .delete("http://localhost:3006/delete/" + id)
-      .then((result) => 
-          {setTodos(todos.filter(todo => todo._id !==id))
-      }
-    )
+    axios
+      .delete("http://localhost:3006/delete/" + id)
+      .then((result) => {
+        setTodos(todos.filter((todo) => todo._id !== id));
+      })
       .catch((err) => console.log(err));
   };
 
   const handleCheck = (id) => {
     axios
       .put("http://localhost:3006/update/" + id)
-      .then((result) => 
-          {setTodos(todos.map((todo) => {
-              if(todo._id === id) {
-                  return { ...todo, done: !todo.done }
-              }
-              return todo
-          }))
-      }
-    )
+      .then((result) => {
+        setTodos(
+          todos.map((todo) => {
+            if (todo._id === id) {
+              return { ...todo, done: !todo.done };
+            }
+            return todo;
+          }),
+        );
+      })
       .catch((err) => console.log(err));
-};
+  };
 
   useEffect(() => {
     axios
@@ -46,7 +46,9 @@ function Home() {
   return (
     <div>
       <h1>Todo List </h1>
-     <AddTodo setTodos={setTodos} />
+      {/* to display the todos */}
+      <AddTodo setTodos={setTodos} />
+
       {todos.length === 0 ? (
         <h3>We aim. We ache. We rise.</h3>
       ) : (
@@ -58,11 +60,8 @@ function Home() {
             >
               {todo.done ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
             </div>
-            <p className = {todo.done ? 'line-through': ''}>
-            {todo.task}
-            </p>
-            <div className="delete-btn" 
-            onClick={()=> handleDelete(todo._id)}>
+            <p className={todo.done ? "line-through" : ""}>{todo.task}</p>
+            <div className="delete-btn" onClick={() => handleDelete(todo._id)}>
               <DeleteIcon />
             </div>
           </div>
